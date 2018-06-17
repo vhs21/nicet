@@ -25,9 +25,6 @@ TreeSet<Key>::Leaf::~Leaf()
 	this->right_ = NULL;
 }
 
-
-
-
 template<class Key>
 TreeSet<Key>::Iterator::Iterator()
 {
@@ -53,7 +50,7 @@ TreeSet<Key>::Iterator::~Iterator()
 }
 
 template<class Key>
-typename TreeSet<Key>::Iterator& TreeSet<Key>::Iterator::operator=(Iterator& iterator)
+typename TreeSet<Key>::Iterator& TreeSet<Key>::Iterator::operator=(Iterator iterator)
 {
 	if (this == &iterator) return iterator;
 	this->leaf_ = iterator.leaf_;
@@ -69,7 +66,7 @@ bool TreeSet<Key>::Iterator::operator==(const Iterator & iterator)
 template<class Key>
 bool TreeSet<Key>::Iterator::operator!=(const Iterator & iterator)
 {
-	return *this != iterator;
+	return !(*this == iterator);
 }
 
 template<class Key>
@@ -149,10 +146,6 @@ typename TreeSet<Key>::Iterator TreeSet<Key>::find(const Key & value)
 	}
 	return tail();
 }
-
-
-
-
 
 template<class Key>
 TreeSet<Key>::TreeSet()
@@ -258,7 +251,7 @@ void TreeSet<Key>::insert(Key value)
 template<class Key>
 int TreeSet<Key>::remove(Key value)
 {
-	Leaf* leaf_to_remove = root;
+	Leaf* leaf_to_remove = this->root_;
 
 	while (leaf_to_remove != NULL && leaf_to_remove->value_ != value)
 		leaf_to_remove = leaf_to_remove->value_ > value ? leaf_to_remove->left_ : leaf_to_remove->right_;
@@ -277,18 +270,30 @@ int TreeSet<Key>::remove(Key value)
 		while (helper_leaf->right_)
 			helper_leaf = helper_leaf->right_;
 
-		if (helper_leaf->parent_ == leaf_to_remove)
-			helper_leaf->right_ = leaf_to_remove->right_;
+		if (helper_leaf->parent_ == leaf_to_remove) {
+			if (leaf_to_remove == this->root_) {
+				helper_leaf->parent_ = NULL;
+			}
+			else {
+				leaf_to_remove->parent_->right_ = helper_leaf;
+			}
+
+			Leaf* left_helper_leaf = helper_leaf;
+			while (left_helper_leaf->left_)
+				left_helper_leaf = left_helper_leaf->left_;
+			left_helper_leaf->left_ = leaf_to_remove->left_;
+			left_helper_leaf->left_->parent_ = left_helper_leaf;
+		}
 		else {
 			helper_leaf = leaf_to_remove->right_;
 			helper_leaf->parent_->right_ = helper_leaf->left_;
-			helper_leaf->left_ = helper_leaf->parent_;
+			helper_leaf->left_ = helper_leaf->parent_->left_;
 		}
 	}
 
-	if (leaf_to_remove == this->root_) root = helper_leaf;
+	if (leaf_to_remove == this->root_) this->root_ = helper_leaf;
 	else if (leaf_to_remove->value_ < leaf_to_remove->parent_->value_)
-		leaf_to_remove->parent_->left = helper_leaf;
+		leaf_to_remove->parent_->left_ = helper_leaf;
 	else leaf_to_remove->parent_->right_ = helper_leaf;
 
 	if (helper_leaf) helper_leaf->parent_ = leaf_to_remove->parent_;

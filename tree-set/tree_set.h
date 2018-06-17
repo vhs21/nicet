@@ -8,9 +8,9 @@ private:
 	public:
 
 		Key value_;
-		Leaf *right_;
-		Leaf *left_;
-		Leaf *parent_;
+		Leaf* right_;
+		Leaf* left_;
+		Leaf* parent_;
 
 		Leaf();
 		Leaf(Key value);
@@ -18,22 +18,22 @@ private:
 
 	};
 
-	Leaf *root_;
+	Leaf* root_;
 
-	int size(Leaf *leaf);
-	void clear(Leaf *leaf);
+	int size(Leaf* leaf);
+	void clear(Leaf* leaf);
 
 public:
 	TreeSet();
-	TreeSet(const TreeSet &set);
+	TreeSet(const TreeSet& set);
 	~TreeSet();
 
-	void prefix(Leaf *leaf);
+	void prefix(Leaf* leaf);
 
-	TreeSet& operator=(TreeSet &set);
+	TreeSet& operator=(TreeSet& set);
 
-	bool operator==(TreeSet &set);
-	bool operator!=(TreeSet &set);
+	bool operator==(TreeSet& set);
+	bool operator!=(TreeSet& set);
 
 	bool empty();
 	int size();
@@ -41,18 +41,18 @@ public:
 	void insert(Key value);
 	int remove(Key value);
 	void clear();
-	
+
 	class Iterator {
 	public:
 		Iterator();
-		Iterator(Leaf *leaf);
-		Iterator(const Iterator &iterator);
+		Iterator(Leaf* leaf);
+		Iterator(const Iterator& iterator);
 		~Iterator();
 
-		Iterator& operator=(Iterator &iterator);
+		Iterator& operator=(Iterator iterator);
 
-		bool operator==(const Iterator &iterator);
-		bool operator!=(const Iterator &iterator);
+		bool operator==(const Iterator& iterator);
+		bool operator!=(const Iterator& iterator);
 
 		Iterator& operator++(int);
 		Iterator& operator--(int);
@@ -62,7 +62,7 @@ public:
 
 	private:
 		friend class TreeSet<Key>;
-		Leaf *leaf_;
+		Leaf* leaf_;
 	};
 
 	Iterator root_iterator_;
