@@ -157,7 +157,7 @@ template<class Key>
 TreeSet<Key>::TreeSet(const TreeSet & set)
 {
 	root_ = NULL;
-	prefix(set.root_);
+	prefix_copy(set.root_);
 }
 
 template<class Key>
@@ -167,19 +167,19 @@ TreeSet<Key>::~TreeSet()
 }
 
 template<class Key>
-void TreeSet<Key>::prefix(Leaf * leaf)
+void TreeSet<Key>::prefix_copy(Leaf * leaf)
 {
 	if (!leaf) return;
 	insert(leaf->value_);
-	prefix(leaf->left_);
-	prefix(leaf->right_);
+	prefix_copy(leaf->left_);
+	prefix_copy(leaf->right_);
 }
 
 template<class Key>
 TreeSet<Key>& TreeSet<Key>::operator=(TreeSet & set)
 {
 	if (this == &set) return set;
-	prefix(set.root_);
+	prefix_copy(set.root_);
 	return *this;
 }
 

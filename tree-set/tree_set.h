@@ -1,39 +1,38 @@
 #pragma once
 
-template<class Key>
+template <class Key>
 class TreeSet
 {
-private:
-	class Leaf {
-	public:
-
+  private:
+	class Leaf
+	{
+	  public:
 		Key value_;
-		Leaf* right_;
-		Leaf* left_;
-		Leaf* parent_;
+		Leaf *right_;
+		Leaf *left_;
+		Leaf *parent_;
 
 		Leaf();
 		Leaf(Key value);
 		~Leaf();
-
 	};
 
-	Leaf* root_;
+	Leaf *root_;
 
-	int size(Leaf* leaf);
-	void clear(Leaf* leaf);
+	int size(Leaf *leaf);
+	void clear(Leaf *leaf);
 
-public:
+	void prefix_copy(Leaf *leaf);
+
+  public:
 	TreeSet();
-	TreeSet(const TreeSet& set);
+	TreeSet(const TreeSet &set);
 	~TreeSet();
 
-	void prefix(Leaf* leaf);
+	TreeSet &operator=(TreeSet &set);
 
-	TreeSet& operator=(TreeSet& set);
-
-	bool operator==(TreeSet& set);
-	bool operator!=(TreeSet& set);
+	bool operator==(TreeSet &set);
+	bool operator!=(TreeSet &set);
 
 	bool empty();
 	int size();
@@ -42,33 +41,33 @@ public:
 	int remove(Key value);
 	void clear();
 
-	class Iterator {
-	public:
+	class Iterator
+	{
+	  public:
 		Iterator();
-		Iterator(Leaf* leaf);
-		Iterator(const Iterator& iterator);
+		Iterator(Leaf *leaf);
+		Iterator(const Iterator &iterator);
 		~Iterator();
 
-		Iterator& operator=(Iterator iterator);
+		Iterator &operator=(Iterator iterator);
 
-		bool operator==(const Iterator& iterator);
-		bool operator!=(const Iterator& iterator);
+		bool operator==(const Iterator &iterator);
+		bool operator!=(const Iterator &iterator);
 
-		Iterator& operator++(int);
-		Iterator& operator--(int);
+		Iterator &operator++(int);
+		Iterator &operator--(int);
 
-		Key& operator*();
-		Key& operator->();
+		Key &operator*();
+		Key &operator->();
 
-	private:
+	  private:
 		friend class TreeSet<Key>;
-		Leaf* leaf_;
+		Leaf *leaf_;
 	};
 
 	Iterator root_iterator_;
 
 	Iterator head();
 	Iterator tail();
-	Iterator find(const Key& value);
-
+	Iterator find(const Key &value);
 };
