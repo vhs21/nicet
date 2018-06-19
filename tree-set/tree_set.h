@@ -3,10 +3,10 @@
 template <class Key>
 class TreeSet
 {
-  private:
+private:
 	class Leaf
 	{
-	  public:
+	public:
 		Key value_;
 		Leaf *right_;
 		Leaf *left_;
@@ -24,7 +24,7 @@ class TreeSet
 
 	void prefix_copy(Leaf *leaf);
 
-  public:
+public:
 	TreeSet();
 	TreeSet(const TreeSet &set);
 	~TreeSet();
@@ -43,7 +43,7 @@ class TreeSet
 
 	class Iterator
 	{
-	  public:
+	public:
 		Iterator();
 		Iterator(Leaf *leaf);
 		Iterator(const Iterator &iterator);
@@ -60,7 +60,7 @@ class TreeSet
 		Key &operator*();
 		Key &operator->();
 
-	  private:
+	private:
 		friend class TreeSet<Key>;
 		Leaf *leaf_;
 	};
